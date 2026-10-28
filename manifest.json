@@ -1,0 +1,18 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Random Cat Pictures",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Random Cat Pictures",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "images/580x386.jpeg",
+      "type": "image/jpeg",
+      "sizes": "580x386"
+    }
+  ]
+}

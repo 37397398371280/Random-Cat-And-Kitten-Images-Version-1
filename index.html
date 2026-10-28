@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json" />
+  <script type="module">
+    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+    const el = document.createElement('pwa-update');
+    document.body.appendChild(el);
+  </script>
+  <link rel="apple-touch-icon" type="image/jpeg" href="12344321.jpg" />
+  <meta name="apple-mobile-web-app-title" content="Random Cat Pictures">
+  <link rel="shortcut icon" type="image/jpeg" href="12344321.jpg" />
+  <link rel="mask-icon" type="image/jpeg" href="12344321.jpg" color="#111" />
+  <title>Random Cat And Kitten Pictures</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+    }
+    
+    .container {
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    
+    img {
+      height: 200px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Disable text selection */
+    body {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    /* Disable zooming */
+    body {
+      touch-action: none;
+      -ms-touch-action: none;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <style>
+    .loader-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .loader {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+      }
+      100% {
+        transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+      }
+    }
+
+    .loader:before,
+    .loader:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 50%;
+      left: 50%;
+      transform-style: preserve-3d;
+    }
+
+    .loader:before {
+      border: 10px solid transparent;
+      border-bottom-color: #3498db;
+      border-top-width: 20px;
+      border-bottom-width: 20px;
+      transform: translate3d(-50%, -50%, 0) rotateX(60deg);
+    }
+
+    .loader:after {
+      border: 10px solid transparent;
+      border-bottom-width: 20px;
+      border-top-color: #3498db;
+      transform: translate3d(-50%, -50%, 0) rotateY(60deg);
+    }
+
+    .message {
+      color: #fff;
+      font-size: 18px;
+      margin-top: 20px;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 768px) {
+      .loader {
+        width: 80px;
+        height: 80px;
+      }
+
+      .message {
+        font-size: 16px;
+        margin_top: 15px;
+      }
+
+      .container {
+        margin-top: 30px;
+      }
+    }
+  </style>
+  
+  <div class="loader-screen">
+    <div class="container">
+      <div class="loader"></div>
+      <div class="message">Tip: Click the image to get started!</div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('load', function() {
+      var loaderScreen = document.querySelector('.loader-screen');
+      loaderScreen.style.display = 'none';
+    });
+  </script>
+  
+  <div class="container">
+    <h1>Random Cat And Kitten Pictures</h1>
+    <img id="catImage" onclick="changeCatImage()" src="https://thecatapi.com/api/images/get?format=src&type=gif" alt="">
+  </div>
+  
+  <script>
+    function changeCatImage() {
+      var catImage = document.querySelector("#catImage");
+      var imageUrl = "https://thecatapi.com/api/images/get?format=src&type=gif";
+
+      catImage.src = imageUrl;
+      location.reload(); // Refresh the page
+    }
+  </script>
+
+  <script>
+    window.addEventListener('load', function() {
+      var alertMessage = document.createElement('div');
+      alertMessage.innerHTML = 'No internet connection. Please check your network.';
+      alertMessage.style.position = 'fixed';
+      alertMessage.style.top = '50%';
+      alertMessage.style.left = '50%';
+      alertMessage.style.transform = 'translate(-50%, -50%)';
+      alertMessage.style.backgroundColor = '#fff';
+      alertMessage.style.padding = '20px';
+      alertMessage.style.borderRadius = '5px';
+      alertMessage.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
+      alertMessage.style.zIndex = '9999';
+      alertMessage.style.fontFamily = 'Arial, sans-serif';
+
+      if (!navigator.onLine) {
+        document.body.appendChild(alertMessage);
+      }
+
+      window.addEventListener('online', function() {
+        if (document.body.contains(alertMessage)) {
+          document.body.removeChild(alertMessage);
+        }
+      });
+
+      window.addEventListener('offline', function() {
+        if (!document.body.contains(alertMessage)) {
+          document.body.appendChild(alertMessage);
+        }
+      });
+    });
+  </script>
+
+<script>
+         // Lock the orientation to portrait mode
+        var myScreenOrientation = window.screen.orientation;
+
+myScreenOrientation.lock("portrait");
+</script>
+  
+  <script src="https://coltensus.repl.co/devicedetailsgetterforconsolelogonly.js"></script>
+  
+</body>
+</html>
